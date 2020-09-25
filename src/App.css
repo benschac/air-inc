@@ -25,6 +25,7 @@ ul {
 h1,
 h2,
 h3 {
+  margin-top: 0;
   color: var(--heading-color);
   line-height: var(--line-height-small);
   font-family: Georgia, "Times New Roman", Times, serif;
