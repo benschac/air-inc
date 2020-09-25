@@ -1,17 +1,17 @@
 import React from "react";
 import { Form, Formik, FormikErrors, FormikValues } from "formik";
 import InputField from "./InputField";
-
-import "./App.css";
+import debounce from "lodash/debounce";
 import { Person as IPerson, mockPersonEndPoint } from "./mockApi";
 import { Person } from "./Person";
 
-// const sleep = (ms: number) => new Promise((res) => setTimeout(res, ms));
+import "./App.css";
 
 interface AppProps {}
 
 export const App: React.FC<AppProps> = ({}) => {
   let [people, setPeople] = React.useState<any>([]);
+  let [loading, setLoading] = React.useState<boolean>(false);
 
   async function getData(
     values: FormikValues,
@@ -22,31 +22,31 @@ export const App: React.FC<AppProps> = ({}) => {
     ) => void
   ) {
     let response;
+    setLoading(true);
 
     try {
       response = await mockPersonEndPoint(200);
 
-      let filtered = response?.data?.filter((person: IPerson) =>
+      let filtered = await response?.data?.filter((person: IPerson) =>
         person.name.includes(values.search)
       );
 
       setPeople(filtered);
+      setLoading(false);
     } catch (e) {
       console.error(e);
       setPeople([]);
+      setLoading(false);
       setErrors({ search: e.error });
     }
-
-    console.log(values, "hello from values");
   }
+
+  const debouncedGetData = debounce(getData, 1000);
 
   return (
     <>
-      <Formik
-        initialValues={{ search: "" }}
-        onSubmit={async (_, { setErrors }) => {}}
-      >
-        {({ isSubmitting, values, setErrors }) => (
+      <Formik initialValues={{ search: "" }} onSubmit={() => {}}>
+        {({ values, setErrors }) => (
           <>
             <div className="wrapper">
               <header>
@@ -60,29 +60,24 @@ export const App: React.FC<AppProps> = ({}) => {
 
               <Form>
                 <InputField
-                  onKeyPress={() => getData(values, setErrors)}
+                  onKeyDown={async () => debouncedGetData(values, setErrors)}
                   placeholder="Type a name..."
                   name="search"
                   label="Search"
                 />
-
-                {isSubmitting && "Loading...."}
               </Form>
+              {loading && <div>loading....</div>}
               <ul>
-                {people?.map((person: IPerson) => {
-                  return (
-                    <li key={person.id}>
-                      <Person person={person} />
-                    </li>
-                  );
-                })}
+                {!loading &&
+                  people?.map((person: IPerson) => {
+                    return (
+                      <li key={person.id}>
+                        <Person person={person} />
+                      </li>
+                    );
+                  })}
               </ul>
             </div>
-
-            {/* Todo */}
-            {/* {people?.length < 1 && values.search && !isSubmitting && (
-              <div>No Matches</div>
-            )} */}
           </>
         )}
       </Formik>

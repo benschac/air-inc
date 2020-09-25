@@ -21,14 +21,16 @@ interface Error {
 export const mockPersonEndPoint = (sleep: number): Promise<Response> => {
   return new Promise((res, rej) => {
     setTimeout(() => {
-      // if (Math.random() * 10 >= 5) {
-      //   return rej({
-      //     data: [],
-      //     error: "Something went wrong, please try again later",
-      //   });
-      // } else {
-      return res({ data: mockData });
-      // }
+      const randomValue = Math.random() * 10 < 2;
+
+      if (randomValue) {
+        return rej({
+          data: [],
+          error: "Something went wrong, please try again later",
+        });
+      } else {
+        return res({ data: mockData });
+      }
     }, sleep);
   });
 };

@@ -1,3 +1,44 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, "Helvetica Neue", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: var(--base);
+}
+
+body,
+ul,
+li {
+  margin: 0;
+  padding: 0;
+}
+
+ul {
+  list-style: none;
+}
+
+h1,
+h2,
+h3 {
+  color: var(--heading-color);
+  line-height: var(--line-height-small);
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+h1 {
+  letter-spacing: 2px;
+  font-size: var(--s2);
+}
+
+header {
+  margin-bottom: var(--s0);
+}
+
 .wrapper {
   margin: 0 auto;
   margin-top: calc(var(--s0) * 2);
@@ -5,23 +46,6 @@
   display: flex;
   padding: 0 var(--s0);
   flex-direction: column;
-  /* justify-content: center; */
-}
-
-h1,
-h2,
-h3 {
-  color: var(--heading-color);
-  font-family: Georgia, "Times New Roman", Times, serif;
-}
-
-h1 {
-  line-height: var(--line-height);
-  font-size: var(--s2);
-}
-
-header {
-  margin-bottom: var(--s0);
 }
 
 .person {
@@ -31,6 +55,7 @@ header {
 
 form {
   display: flex;
+  flex-direction: column;
 }
 
 form > #search {
@@ -40,11 +65,4 @@ form > #search {
 
 #input {
   width: 100%;
-}
-
-button[type="submit"] {
-  margin-left: var(--s0);
-}
-
-.hed {
 }
