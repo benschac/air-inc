@@ -1,0 +1,14 @@
+.person {
+  margin-bottom: var(--s0);
+  padding: var(--s0);
+}
+
+.person > .hed {
+  margin-right: var(--s0);
+}
+
+.person > .hed img {
+  flex-grow: 1;
+  flex-basis: 200px;
+  border-radius: var(--s-5);
+}
